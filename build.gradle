@@ -15,7 +15,7 @@ apply from: rootDir.canonicalPath + '/.gradle/publish.gradle'
 archivesBaseName = 'vertx-cluster-redis'
 
 group = "com.github.wjw465150"
-version = "4.4.1.2"
+version = "4.4.1.2.1"
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -24,8 +24,8 @@ targetCompatibility = '1.8'
 description = """Vert.x Redis Cluster Manager"""
 
 ext {
-  vertx = [version : "4.4.6"]
-  redisson = [version : "3.22.1"]
+  vertx = [version : "4.5.14"]
+  redisson = [version : "3.31.0"]
   slf4j = [version : "1.7.32"]
   logback = [version : "1.2.10"]
   junit = [version : "4.13.1"]
@@ -36,24 +36,24 @@ compileJava {
   options.encoding = 'UTF-8'
   options.deprecation = true
   options.compilerArgs += ["-parameters","-Xlint:deprecation"]
-  
+
   doFirst {
     println "options:"+options
     println "options.compilerArgs:"+options.compilerArgs
   }
-  
+
 }
 
 compileTestJava {
   options.encoding = 'UTF-8'
   options.deprecation = true
   options.compilerArgs += ["-parameters","-Xlint:deprecation"]
-          
+
   doFirst {
     println "options:"+options
     println "options.compilerArgs:"+options.compilerArgs
   }
-  
+
 }
 
 jar {
@@ -79,7 +79,7 @@ publishing {
       groupId = project.group  //Sonatype上的Issue里填写的`Group Id`,可以跟package路径完全不一样
       artifactId = project.archivesBaseName
       version = project.version
- 
+
       from components.java
       versionMapping {  //为了解决: Gradle, SpringBoot, MavenPublish - Publication only contains dependencies and/or constraints without a version
         usage('java-api') {
@@ -89,7 +89,7 @@ publishing {
           fromResolutionResult()
         }
       }
-      
+
       pom {
         // 构件名称
         // 区别于artifactId，可以理解为artifactName
@@ -123,7 +123,7 @@ publishing {
       }
     }
   }
- 
+
   // 定义发布到哪里
   repositories {
     maven {
@@ -136,7 +136,7 @@ publishing {
     }
   }
 }
- 
+
 //为所有的jar包做数字签名
 signing {
   sign publishing.publications.mavenJava
@@ -156,7 +156,7 @@ repositories {
 
 configurations {
   provided
-  optional 
+  optional
 }
 
 dependencies {
@@ -169,10 +169,10 @@ dependencies {
     exclude group: 'org.slf4j'
   }
   implementation "org.slf4j:slf4j-api:${slf4j.version}"
-    
+
   provided "io.vertx:vertx-codegen"
   provided "io.vertx:vertx-docgen"
-  
+
   testImplementation "org.slf4j:slf4j-api:${slf4j.version}"
   testImplementation "ch.qos.logback:logback-core:${logback.version}"
   testImplementation "ch.qos.logback:logback-classic:${logback.version}"
@@ -203,6 +203,6 @@ dependencies {
 
 compileJava.dependsOn(processResources)
 
-test {
-  useJUnitPlatform()
-}
+//test {
+//  useJUnitPlatform()
+//}
